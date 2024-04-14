@@ -1,0 +1,63 @@
+import javax.swing.*;
+import java.awt.*;
+import java.awt.image.BufferedImage;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+import java.util.Random;
+
+public class CardGenerator extends JFrame {
+    private final int cardWidth;
+    private final int cardHeight;
+    private final List<ImageIcon> peopleImages;
+
+    public CardGenerator(int width, int height, List<ImageIcon> images) {
+        this.cardWidth = width;
+        this.cardHeight = height;
+        this.peopleImages = images;
+        
+        // Set up the JFrame
+        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        setSize(800, 600); // Just a default size, adjust as needed
+        setTitle("Guess Who? Card Generator");
+
+        // Generate and display the card
+        JPanel cardPanel = generateCard();
+        getContentPane().add(cardPanel, BorderLayout.CENTER);
+        setVisible(true);
+    }
+
+    private JPanel generateCard() {
+        JPanel cardPanel = new JPanel(new GridLayout(cardHeight, cardWidth));
+        List<ImageIcon> shuffledImages = new ArrayList<>(peopleImages);
+        Collections.shuffle(shuffledImages);
+
+        // Populate the card with random images
+        for (ImageIcon image : shuffledImages.subList(0, Math.min(cardWidth * cardHeight, shuffledImages.size()))) {
+            JLabel label = new JLabel(image);
+            cardPanel.add(label);
+        }
+
+        return cardPanel;
+    }
+
+    public static void main(String[] args) {
+        // Load images (you need to implement this part)
+        List<ImageIcon> images = loadImages();
+
+        // Create and display the card generator
+        SwingUtilities.invokeLater(() -> new CardGenerator(4, 5, images));
+    }
+
+    // Dummy method to load images (replace with your own implementation)
+    private static List<ImageIcon> loadImages() {
+        // Implement loading of images here
+        // Example:
+        // List<ImageIcon> images = new ArrayList<>();
+        // images.add(new ImageIcon("image1.jpg"));
+        // images.add(new ImageIcon("image2.jpg"));
+        // ...
+        // return images;
+        return null; // Placeholder, replace with actual list of images
+    }
+}
